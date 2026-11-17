@@ -359,6 +359,48 @@
     update();
   }
 
+  function hint() {
+    if (
+      state.phase !== 'playing' ||
+      state.locked ||
+      state.first !== null ||
+      state.hints <= 0 ||
+      state.score < 100
+    ) return;
+
+    const unseen = state.cards
+      .map((c, i) => ({ ...c, i }))
+      .filter(c => !c.matched);
+
+    if (!unseen.length) return;
+
+    const first = unseen[0];
+    const second = unseen.find(c => c.id === first.id && c.i !== first.i);
+    if (!second) return;
+
+    state.hints--;
+    state.score -= 100;
+    state.locked = true;
+
+    show(first.i);
+    show(second.i);
+
+    $('message').textContent = '🔎 Hint revealed a pair! −100 points';
+    beep(700, .16);
+
+    const epoch = state.epoch;
+
+    state.hintTimer = setTimeout(() => {
+      if (epoch !== state.epoch) return;
+
+      conceal(first.i);
+      conceal(second.i);
+      state.locked = false;
+      update();
+    }, 1100);
+
+    update();
+  }
 
 
 
