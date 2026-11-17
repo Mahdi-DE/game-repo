@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1026">
+  <title>Memory Master Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="app">
+    <!-- Top bar -->
+    <header class="topbar">
+      <a class="brand" href="#">
+        <span class="brand-icon">✦</span>
+        <span>
+          MEMORY<span class="accent">MASTERS</span>
+          <small>GAME</small>
+        </span>
+      </a>
+
+      <div class="top-actions">
+        <button id="soundBtn" class="icon-btn" title="Sound">🔊</button>
+        <button id="themeBtn" class="icon-btn" title="Theme">🎨</button>
+        <button id="helpBtn" class="icon-btn" title="How to play">❔</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="eyebrow">✧ TRAIN YOUR BRAIN · BEAT THE CLOCK ✧</div>
+        <h1>Match the <span>Magic.</span></h1>
+        <p>Flip cards. Find pairs. Build combos. Climb the leaderboard.</p>
+      </section>
+
+      <!-- Statistics dashboard -->
+      <section class="dashboard">
+        <div class="stat">
+          <span>TIME LEFT</span>
+          <strong id="time">01:30</strong>
+          <div class="meter"><i id="timeMeter"></i></div>
+        </div>
+
+        <div class="stat">
+          <span>MOVES</span>
+          <strong id="moves">0</strong>
+          <small id="accuracy">Accuracy 100%</small>
+        </div>
+
+        <div class="stat">
+          <span>MATCHED</span>
+          <strong id="matched">0 / 8</strong>
+          <small id="combo">Combo ×1</small>
+        </div>
+
+        <div class="stat">
+          <span>SCORE</span>
+          <strong id="score">0</strong>
+          <small id="best">Best 0</small>
+        </div>
+      </section>
+
+      <section class="game-layout">
+        <!-- Game area -->
+        <div class="game-panel">
+          <div class="game-toolbar">
+            <div class="status">
+              <span class="status-dot"></span>
+              <span id="status">READY TO PLAY</span>
+            </div>
+
+            <div class="toolbar-buttons">
+              <button id="hintBtn" class="btn secondary" title="Reveal a pair (costs points)">
+                ✧ Hint <span id="hints">3</span>
+              </button>
+              <button id="pauseBtn" class="btn secondary">Ⅱ Pause</button>
+              <button id="restartBtn" class="btn secondary">↻ Restart</button>
+            </div>
+          </div>
+
+          <div class="board-wrap">
+            <div id="board" class="board"></div>
+
+            <div id="overlay" class="overlay">
+              <div class="overlay-card">
+                <div class="overlay-icon" id="overlayIcon">✦</div>
+                <h2 id="overlayTitle">Ready, player one?</h2>
+                <p id="overlayText">Choose your difficulty and start matching.</p>
+                <button id="overlayBtn" class="btn primary">▶ Start game</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="game-bottom">
+            <span id="message">Choose two cards to find a match.</span>
+            <span id="progressText">0% complete</span>
+          </div>
+
+          <div class="progress"><i id="progressBar"></i></div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <div class="side-card">
+            <h2>⚙ Game setup</h2>
+
+            <label for="difficulty">Difficulty</label>
+            <select id="difficulty">
+              <option value="easy">Rookie · 4 × 3</option>
+              <option value="medium" selected>Explorer · 4 × 4</option>
+              <option value="hard">Master · 6 × 4</option>
+            </select>
+
+            <label for="mode">Game mode</label>
+            <select id="mode">
+              <option value="timed" selected>⏱ Time Attack</option>
+              <option value="relaxed">☕ Zen Mode</option>
+            </select>
+
+            <label for="deck">Card collection</label>
+            <select id="deck">
+              <option value="space" selected>🚀 Cosmic Quest</option>
+              <option value="nature">🌿 Wild Nature</option>
+              <option value="food">🍓 Sweet Treats</option>
+            </select>
+
+            <button id="newBtn" class="btn primary full">✦ New challenge</button>
+            <p class="side-note">Changing settings starts a fresh game when you press New challenge.</p>
+          </div>
+
+          <div class="side-card">
+            <div class="side-heading">
+              <h2>🏆 Hall of fame</h2>
+              <button id="clearBtn" class="text-btn">Clear</button>
+            </div>
+            <ol id="leaderboard" class="leaderboard">
+              <li class="empty">Finish a game to set a record!</li>
+            </ol>
+          </div>
+
+          <div class="side-card tip">
+            <h2>💡 Pro tip</h2>
+            <p>Remember where cards appear, and chain matches to earn combo bonuses. Hints cost 100 points.</p>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <footer>HTML + CSS + JAVASCRIPT</footer>
+  </div>
+
+  <!-- Help dialog -->
+  <dialog id="helpDialog">
+    <div class="dialog-inner">
+      <button id="closeHelp" class="close">×</button>
+      <h2>How to play</h2>
+      <p>Reveal two cards. Matching symbols stay face-up; unmatched cards flip back. Match every pair to win!</p>
+      <ul>
+        <li><b>Time Attack:</b> Complete the board before time runs out.</li>
+        <li><b>Zen Mode:</b> Play without a countdown.</li>
+        <li><b>Combos:</b> Consecutive matches multiply your points.</li>
+        <li><b>Hints:</b> Briefly reveal a matching pair at a score cost.</li>
+        <li><b>Keyboard:</b> Use arrow keys to navigate cards, Enter or Space to flip, P to pause, H for a hint.</li>
+      </ul>
+      <button id="gotIt" class="btn primary full">Got it!</button>
+    </div>
+  </dialog>
+
+  <script src="script.js" defer></script>
+</body>
+
+</html>
