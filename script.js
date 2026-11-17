@@ -289,7 +289,75 @@
   }
 
 
+  function flip(i) {
+    if (state.phase !== 'playing' || state.locked) return;
 
+    const card = state.cards[i];
+    if (!card || card.matched || i === state.first) return;
+
+    show(i);
+    beep(370, .06);
+
+    // First card of a pair
+    if (state.first === null) {
+      state.first = i;
+      return;
+    }
+
+    // Second card of a pair
+    state.second = i;
+    state.moves++;
+    state.locked = true;
+
+    const a = state.cards[state.first];
+    const b = card;
+
+    if (a.id === b.id) {
+      // Match
+      a.matched = b.matched = true;
+      state.matched++;
+      state.streak++;
+      state.score +=
+        100 +
+        Math.min(state.streak - 1, 5) * 40 +
+        (state.mode === 'timed' ? Math.floor(state.time / 10) : 0);
+
+      element(state.first).classList.add('matched');
+      element(i).classList.add('matched');
+
+      $('message').textContent = state.streak > 1
+        ? `🔥 ${state.streak} match combo! Keep going!`
+        : '✨ Perfect match!';
+
+      beep(660, .12);
+      setTimeout(() => beep(880, .12), 100);
+
+      state.first = state.second = null;
+      state.locked = false;
+
+      if (state.matched === config().pairs) finish(true);
+    } else {
+      // Mismatch
+      state.streak = 0;
+      $('message').textContent = 'Not a match. Remember those cards!';
+
+      const first = state.first;
+      const second = state.second;
+      const epoch = state.epoch;
+
+      state.hideTimer = setTimeout(() => {
+        if (epoch !== state.epoch) return;
+
+        conceal(first);
+        conceal(second);
+        state.first = state.second = null;
+        state.locked = false;
+        update();
+      }, 850);
+    }
+
+    update();
+  }
 
 
 
